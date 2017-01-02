@@ -6,9 +6,18 @@
 # 3. Detecta parametros daisy, como titulo y orden de los mp3.
 # 4. Ordena los archivos mp3 y los copia en un directorio.
 # 5. Genera una lista de reproduccion.
+
 # Required for sed to work properly
 export LC_CTYPE=C
 export LANG=C
+
+# LOGGING CONFIG.
+DEBUG=1
+INFO=2
+
+
+LOGGER_LEVEL=${LOGGER_LEVEL:=2}
+
 # CONSTANTES
 TMP_DIR=/tmp/
 OUT_DIR=$HOME/Documents/Libreria/
@@ -31,10 +40,16 @@ function log {
 }
 
 function debug {
+  if [ $LOGGER_LEVEL -gt $DEBUG ]; then
+    return
+  fi
   log debug "$1"
 }
 
 function info {
+  if [ $LOGGER_LEVEL -gt $INFO ]; then
+    return
+  fi
   log info "$1"
 }
 
@@ -106,7 +121,9 @@ function detectaDaisy {
   fi
 }
 
+debug "Nuevo Archivo Detectado: $1"
 
-
-info "Nuevo archivo: $1"
-detectaDaisy $1
+if [[ "$1" =~ \.zip$ ]]; then
+  info "Nuevo archivo zip: $1"
+  detectaDaisy $1
+fi
