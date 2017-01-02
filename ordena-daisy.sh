@@ -16,7 +16,7 @@ DEBUG=1
 INFO=2
 
 
-LOGGER_LEVEL=${LOGGER_LEVEL:=2}
+LOGGER_LEVEL=${LOGGER_LEVEL:=1}
 
 # CONSTANTES
 TMP_DIR=/tmp/
@@ -87,7 +87,12 @@ function detectaDaisy {
       # TODO Verificar que la descompresion ha ido bien.
       dirname=$TMP_DIR`basename $file | cut -d. -f1`
       debug "Directorio: $dirname"
-      nccFile="$(ls $dirname/ncc.htm*)"
+      nccFile="$(ls $dirname | grep ncc.htm)"
+      if [ "$nccFile" == "" ]; then
+        error "Unable to find ncc.htm or ncc.html"
+        exit 1
+      fi
+      nccFile="$dirname/$nccFile"
       # Busca el titulo
       encoding "$nccFile"
       title "$nccFile"

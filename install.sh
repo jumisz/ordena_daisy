@@ -10,5 +10,7 @@ chmod a+x $BASE/*.sh
 echo "Preparando la configuration de LaunchAgent"
 cat ordena-daisy.agent.plist| sed s/%%USER%%/"$USER"/g > $HOME/Library/LaunchAgents/ordena-daisy.agent.plist
 echo "Lanzando el agente"
-launchctl $HOME/Library/LaunchAgents/ordena-daisy.agent.plist
+launchctl unload $HOME/Library/LaunchAgents/ordena-daisy.agent.plist
+launchctl load $HOME/Library/LaunchAgents/ordena-daisy.agent.plist
+launchctl start $HOME/Library/LaunchAgents/ordena-daisy.agent.plist
 echo "Finalizado!"
