@@ -30,7 +30,7 @@ BOOK_DIR=""
 
 function createPlaylist {
   echo "Creando Lista de Reproduccion: $1"
-  ls "$1/*.mp3" > "$1/playlist.m3u"
+  ls "$1" | grep .mp3 > "$1/playlist.m3u"
 }
 
 function log {
